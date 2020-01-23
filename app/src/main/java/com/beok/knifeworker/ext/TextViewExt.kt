@@ -1,6 +1,5 @@
 package com.beok.knifeworker.ext
 
-import android.widget.Button
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.afollestad.materialdialogs.MaterialDialog
@@ -9,7 +8,7 @@ import com.beok.knifeworker.R
 import java.util.*
 
 @BindingAdapter("showTimePicker")
-fun Button.showTimePicker(targetView: TextView) {
+fun TextView.showTimePicker(targetView: TextView) {
     setOnClickListener {
         val context = it.context
         MaterialDialog(context).show {
