@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">KnifeWorker</string>
+    <string name="am">오전</string>
+    <string name="pm">오후</string>
+    <string name="contents_start_working">%s %s시 %s분</string>
+    <string name="title_start_working">출근 시간</string>
 </resources>
