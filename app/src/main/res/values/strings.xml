@@ -7,4 +7,7 @@
     <string name="title_remain_working_hour">남은 시간</string>
     <string name="hint_remain_working_hour">남은 업무 시간</string>
     <string name="label_calculate">계산하기</string>
+    <string name="msg_err_input_start_working_hour">출근 시간을 입력해주세요.</string>
+    <string name="msg_err_input_remain_working_hour">남은 업무 시간을 입력해주세요.</string>
+    <string name="msg_result_work_off">%d시 %d분 퇴근 가즈아!</string>
 </resources>

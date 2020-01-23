@@ -83,16 +83,33 @@
                 tools:text="얼마나 시간이 남았니?" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- 결과 화면 -->
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toTopOf="@id/mbtn_calculate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_remain_working_hour"
+            tools:text="5시 00분 퇴근\n가즈아!!!" />
+
+        <!-- 계산 버튼 -->
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/mbtn_calculate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:onClick="@{() -> vm.showWorkOffTime(tietRemainWorkingHour.getText().toString())}"
             android:text="@string/label_calculate"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             app:cornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_remain_working_hour" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

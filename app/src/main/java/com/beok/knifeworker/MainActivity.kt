@@ -1,6 +1,7 @@
 package com.beok.knifeworker
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -33,18 +34,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
-        viewModel.startWorkingHour.observe(this, Observer { datetime ->
-            val amOrPm = if (datetime.get(Calendar.AM_PM) == 1) {
-                getString(R.string.pm)
-            } else {
-                getString(R.string.am)
-            }
-            binding.tvStartWorking.text = String.format(
-                getString(R.string.contents_start_working),
-                amOrPm,
-                datetime.get(Calendar.HOUR),
-                datetime.get(Calendar.MINUTE)
-            )
-        })
+        val owner = this@MainActivity
+        viewModel.run {
+            startWorkingTime.observe(owner, Observer { datetime ->
+                val amOrPm = if (datetime.get(Calendar.AM_PM) == 1) {
+                    getString(R.string.pm)
+                } else {
+                    getString(R.string.am)
+                }
+                binding.tvStartWorking.text = String.format(
+                    getString(R.string.contents_start_working),
+                    amOrPm,
+                    datetime.get(Calendar.HOUR),
+                    datetime.get(Calendar.MINUTE)
+                )
+            })
+            err.observe(owner, Observer {
+                val stringRes = it.message?.toInt() ?: -1
+                Toast.makeText(owner, getString(stringRes), Toast.LENGTH_SHORT).show()
+            })
+            result.observe(owner, Observer {
+                binding.tvResult.text =
+                    String.format(getString(R.string.msg_result_work_off), it.first, it.second)
+            })
+        }
     }
 }
