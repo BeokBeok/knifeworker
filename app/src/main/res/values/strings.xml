@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KnifeWorker</string>
+    <string name="app_name">칼퇴근러</string>
     <string name="am">오전</string>
     <string name="pm">오후</string>
     <string name="contents_start_working">%s %s시 %s분</string>
