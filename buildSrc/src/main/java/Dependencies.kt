@@ -5,6 +5,7 @@ object Version {
     const val CONSTRAINT_LAYOUT = "1.1.3"
     const val JUNIT = "1.1.1"
     const val ESPRESSO = "3.2.0"
+    const val LIFECYCLE_EXT = "2.2.0-rc03"
 }
 
 object Libraries {
@@ -17,4 +18,5 @@ object Libraries {
     const val ESPRESSO = "androidx.test.espresso:espresso-core:${Version.ESPRESSO}"
     const val KOTLIN_TEST_JUNIT =
         "org.jetbrains.kotlin:kotlin-test-junit:${Version.KOTLIN}"
+    const val LIFECYCLE_EXT = "androidx.lifecycle:lifecycle-extensions:${Version.LIFECYCLE_EXT}"
 }

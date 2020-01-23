@@ -30,6 +30,8 @@ dependencies {
     implementation Libraries.CORE_KTX
     implementation Libraries.CONSTRAINT_LAYOUT
     implementation Libraries.JUNIT
+    implementation Libraries.LIFECYCLE_EXT
+
     androidTestImplementation Libraries.ESPRESSO
     androidTestImplementation Libraries.KOTLIN_TEST_JUNIT
 }
