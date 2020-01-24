@@ -8,6 +8,8 @@ object Version {
     const val LIFECYCLE_EXT = "2.2.0-rc03"
 
     const val MATERIAL_DIALOG = "3.1.1"
+
+    const val PLAY_SERVICE_ADS = "18.3.0"
 }
 
 object Libraries {
@@ -26,4 +28,8 @@ object Libraries {
         "com.afollestad.material-dialogs:core:${Version.MATERIAL_DIALOG}"
     const val MATERIAL_DIALOG_DATETIME =
         "com.afollestad.material-dialogs:datetime:${Version.MATERIAL_DIALOG}"
+
+    const val PLAY_SERVICES_ADS =
+        "com.google.android.gms:play-services-ads:${Version.PLAY_SERVICE_ADS}"
+
 }

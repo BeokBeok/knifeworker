@@ -42,4 +42,6 @@ dependencies {
 
     implementation Libraries.MATERIAL_DIALOG_CORE
     implementation Libraries.MATERIAL_DIALOG_DATETIME
+
+    implementation Libraries.PLAY_SERVICES_ADS
 }

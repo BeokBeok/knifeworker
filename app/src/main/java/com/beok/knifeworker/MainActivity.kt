@@ -8,6 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.beok.knifeworker.databinding.ActivityMainBinding
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +27,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupBinding()
         setupObserver()
+        setupAdmob()
+    }
+
+    private fun setupAdmob() {
+        MobileAds.initialize(this)
+        binding.adview.loadAd(AdRequest.Builder().build())
     }
 
     private fun setupBinding() {
