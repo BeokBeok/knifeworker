@@ -27,8 +27,18 @@ class MainViewModel : ViewModel() {
         if (!validWorkingHour(workingHour)) return
 
         var (workOffHour, workOffMinute) = calWorkOffTime(workingHour)
-        if (workOffHour >= 12) workOffHour -= 12
+        if (checkStayUpAllNight(workOffHour)) return
+
+        if (workOffHour > 12) workOffHour -= 12
         _result.value = Pair(workOffHour, (workOffMinute * 60).roundToInt())
+    }
+
+    private fun checkStayUpAllNight(workOffHour: Int): Boolean {
+        if (workOffHour >= 24) {
+            _err.value = IllegalStateException(R.string.msg_err_stay_up_all_night.toString())
+            return true
+        }
+        return false
     }
 
     fun setWorkingDay(day: Int) {
@@ -43,7 +53,7 @@ class MainViewModel : ViewModel() {
         if (workOffHour >= 12) workOffHour += LAUNCH_TIME
         var workOffMinute = _startWorkingTime.value!!.get(Calendar.MINUTE) / 60.00f +
                 minute
-        if (workOffMinute > 1) {
+        if (workOffMinute >= 1) {
             workOffHour += 1
             workOffMinute -= 1
         }
@@ -62,7 +72,7 @@ class MainViewModel : ViewModel() {
         }
         if (workingHour.toFloat() >= baseWorkingHour) {
             _err.value =
-                IllegalStateException(R.string.msg_err_input_exceed_working_hour.toString())
+                IllegalStateException(R.string.msg_err_exceed_working_hour.toString())
             return false
         }
         return true

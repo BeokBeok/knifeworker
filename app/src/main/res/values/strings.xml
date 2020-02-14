@@ -11,7 +11,8 @@
     <string name="label_calculate">계산하기</string>
     <string name="msg_err_input_start_working_hour">출근 시간을 입력해주세요.</string>
     <string name="msg_err_input_working_hour_until_current">현재까지 일한 근무 시간을 입력해주세요.</string>
-    <string name="msg_err_input_exceed_working_hour">뭐해? 퇴근 안하고</string>
+    <string name="msg_err_exceed_working_hour">뭐해? 퇴근 안하고</string>
+    <string name="msg_err_stay_up_all_night">밤새즈아!</string>
     <string name="msg_result_work_off">%d시 %d분 퇴근 가즈아!</string>
     <string name="title_day_1">1일차</string>
     <string name="title_day_2">2일차</string>
