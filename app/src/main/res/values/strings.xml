@@ -2,7 +2,7 @@
     <string name="admob_app_key">ca-app-pub-1017540929895357~7800377824</string>
     <string name="admob_banner_app_key">ca-app-pub-1017540929895357/6376928599</string>
 
-    <string name="app_name">퇴근 시간 계산기</string>
+    <string name="app_name">퇴근 시간 계산</string>
     <string name="am">오전</string>
     <string name="pm">오후</string>
     <string name="contents_start_working">%s %s시 %s분</string>
@@ -10,7 +10,7 @@
     <string name="title_total_working_hour">총 근무 시간</string>
     <string name="label_calculate">계산하기</string>
     <string name="msg_err_input_start_working_hour">출근 시간을 입력해주세요.</string>
-    <string name="msg_err_input_remain_working_hour">남은 업무 시간을 입력해주세요.</string>
+    <string name="msg_err_input_working_hour_until_current">현재까지 일한 근무 시간을 입력해주세요.</string>
     <string name="msg_result_work_off">%d시 %d분 퇴근 가즈아!</string>
     <string name="title_day_1">1일차</string>
     <string name="title_day_2">2일차</string>
