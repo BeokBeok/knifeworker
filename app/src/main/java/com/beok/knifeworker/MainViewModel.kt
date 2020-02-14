@@ -17,50 +17,69 @@ class MainViewModel : ViewModel() {
     private val _result = MutableLiveData<Pair<Int, Int>>()
     val result: LiveData<Pair<Int, Int>> get() = _result
 
+    private var baseWorkingHour: Float = 8.00F
+
     val setupStartWorkingHour = fun(startWorkingHour: Calendar) {
         _startWorkingTime.value = startWorkingHour
     }
 
-    fun showWorkOffTime(remainWorkingHour: String) {
-        if (checkValid(remainWorkingHour)) return
+    fun showWorkOffTime(workingHour: String) {
+        if (!validWorkingHour(workingHour)) return
 
-        val (workOffHour, workOffMinute) = calculateWorkOffTime(remainWorkingHour)
-        _result.value = Pair(workOffHour - 12, (workOffMinute * 60).roundToInt())
+        var (workOffHour, workOffMinute) = calWorkOffTime(workingHour)
+        if (checkStayUpAllNight(workOffHour)) return
+
+        if (workOffHour > 12) workOffHour -= 12
+        _result.value = Pair(workOffHour, (workOffMinute * 60).roundToInt())
     }
 
-    private fun calculateWorkOffTime(remainWorkingHour: String): Pair<Int, Float> {
-        val isStartWorkingPM = _startWorkingTime.value!!.get(Calendar.AM_PM) == 1
-        val remainHour = remainWorkingHour.toFloat().toInt()
-        val remainMinute = remainWorkingHour.toFloat() - remainHour
-
-        var workOffHour = if (!isStartWorkingPM) {
-            _startWorkingTime.value!!.get(Calendar.HOUR) + remainHour + LAUNCH_TIME
-        } else {
-            _startWorkingTime.value!!.get(Calendar.HOUR) + remainHour
+    private fun checkStayUpAllNight(workOffHour: Int): Boolean {
+        if (workOffHour >= 24) {
+            _err.value = IllegalStateException(R.string.msg_err_stay_up_all_night.toString())
+            return true
         }
+        return false
+    }
+
+    fun setWorkingDay(day: Int) {
+        baseWorkingHour = (FULL_TIME * day).toFloat()
+    }
+
+    private fun calWorkOffTime(workingHour: String): Pair<Int, Float> {
+        val time = baseWorkingHour - workingHour.toFloat()
+        val (hour, minute) = time.toInt() to time - time.toInt()
+
+        var workOffHour = _startWorkingTime.value!!.get(Calendar.HOUR) + hour
+        if (workOffHour >= 12) workOffHour += LAUNCH_TIME
         var workOffMinute = _startWorkingTime.value!!.get(Calendar.MINUTE) / 60.00f +
-                remainMinute
-        if (workOffMinute > 1) {
+                minute
+        if (workOffMinute >= 1) {
             workOffHour += 1
             workOffMinute -= 1
         }
         return Pair(workOffHour, workOffMinute)
     }
 
-    private fun checkValid(remainWorkingHour: String): Boolean {
+    private fun validWorkingHour(workingHour: String): Boolean {
         if (_startWorkingTime.value == null) {
             _err.value = IllegalStateException(R.string.msg_err_input_start_working_hour.toString())
-            return true
+            return false
         }
-        if (remainWorkingHour.isEmpty()) {
+        if (workingHour.isEmpty()) {
             _err.value =
-                IllegalStateException(R.string.msg_err_input_remain_working_hour.toString())
-            return true
+                IllegalStateException(R.string.msg_err_input_working_hour_until_current.toString())
+            return false
         }
-        return false
+        if (workingHour.toFloat() >= baseWorkingHour) {
+            _err.value =
+                IllegalStateException(R.string.msg_err_exceed_working_hour.toString())
+            return false
+        }
+        return true
     }
 
     companion object {
         const val LAUNCH_TIME = 1
+        const val FULL_TIME = 8
     }
 }
