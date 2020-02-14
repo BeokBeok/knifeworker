@@ -13,10 +13,58 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:paddingStart="24dp"
+        android:paddingTop="24dp"
+        android:paddingEnd="24dp"
         tools:context=".MainActivity">
+
+        <!-- 일차 -->
+        <RadioGroup
+            android:id="@+id/rg_day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/rb_day_1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rb_day_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title_day_1" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rb_day_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title_day_2" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rb_day_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title_day_3" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rb_day_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title_day_4" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rb_day_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title_day_5" />
+        </RadioGroup>
 
         <!-- 출근 시간 -->
         <TextView
@@ -27,18 +75,19 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tv_start_working"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tv_start_working" />
 
         <TextView
             android:id="@+id/tv_start_working"
             android:layout_width="0dp"
             android:layout_height="48dp"
+            android:layout_marginTop="24dp"
             android:gravity="center"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@id/btn_show_time_picker"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rg_day"
             tools:text="언제 출근했니?" />
 
         <TextView
@@ -49,15 +98,15 @@
             android:background="@drawable/ic_baseline_access_time_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_start_working"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tv_start_working" />
 
-        <!-- 남은 시간 -->
+        <!-- 총 근무 시간 -->
         <TextView
             android:id="@+id/tv_title_remain_working_hour"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:gravity="center"
-            android:text="@string/title_remain_working_hour"
+            android:text="@string/title_total_working_hour"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/til_remain_working_hour"
@@ -77,10 +126,10 @@
                 android:id="@+id/tiet_remain_working_hour"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/hint_remain_working_hour"
+                android:hint="@string/title_total_working_hour"
                 android:inputType="numberDecimal"
                 android:textSize="18sp"
-                tools:text="얼마나 시간이 남았니?" />
+                tools:text="총 근무시간" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- 결과 화면 -->
