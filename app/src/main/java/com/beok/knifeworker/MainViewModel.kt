@@ -24,7 +24,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun showWorkOffTime(workingHour: String) {
-        if (validWorkingHour(workingHour)) return
+        if (!validWorkingHour(workingHour)) return
 
         var (workOffHour, workOffMinute) = calWorkOffTime(workingHour)
         if (workOffHour >= 12) workOffHour -= 12
@@ -53,14 +53,19 @@ class MainViewModel : ViewModel() {
     private fun validWorkingHour(workingHour: String): Boolean {
         if (_startWorkingTime.value == null) {
             _err.value = IllegalStateException(R.string.msg_err_input_start_working_hour.toString())
-            return true
+            return false
         }
         if (workingHour.isEmpty()) {
             _err.value =
                 IllegalStateException(R.string.msg_err_input_working_hour_until_current.toString())
-            return true
+            return false
         }
-        return false
+        if (workingHour.toFloat() >= baseWorkingHour) {
+            _err.value =
+                IllegalStateException(R.string.msg_err_input_exceed_working_hour.toString())
+            return false
+        }
+        return true
     }
 
     companion object {

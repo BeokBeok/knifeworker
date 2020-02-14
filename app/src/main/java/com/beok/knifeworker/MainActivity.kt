@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
             err.observe(owner, Observer {
                 val stringRes = it.message?.toInt() ?: -1
                 Toast.makeText(owner, getString(stringRes), Toast.LENGTH_SHORT).show()
+                binding.tvResult.text = ""
             })
             result.observe(owner, Observer {
                 binding.tvResult.text =
