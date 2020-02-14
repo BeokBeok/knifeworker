@@ -2,7 +2,7 @@
     <string name="admob_app_key">ca-app-pub-1017540929895357~7800377824</string>
     <string name="admob_banner_app_key">ca-app-pub-1017540929895357/6376928599</string>
 
-    <string name="app_name">퇴근 시간 계산</string>
+    <string name="app_name">퇴근 시간 계산기</string>
     <string name="am">오전</string>
     <string name="pm">오후</string>
     <string name="contents_start_working">%s %s시 %s분</string>
