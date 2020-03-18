@@ -1,5 +1,5 @@
 object Version {
-    const val KOTLIN = "1.3.61"
+    const val KOTLIN = "1.3.70"
     const val MATERIAL = "1.2.0-alpha03"
     const val CORE_KTX = "1.1.0"
     const val CONSTRAINT_LAYOUT = "1.1.3"
