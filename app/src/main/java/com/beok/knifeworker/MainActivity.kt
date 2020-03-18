@@ -63,8 +63,8 @@ class MainActivity : AppCompatActivity() {
                 binding.tvResult.text = ""
             })
             result.observe(owner, Observer {
-                binding.tvResult.text =
-                    String.format(getString(R.string.msg_result_work_off), it.first, it.second)
+                binding.tvResult.text = if (it.first == 0 && it.second == 0) ""
+                else String.format(getString(R.string.msg_result_work_off), it.first, it.second)
             })
         }
     }

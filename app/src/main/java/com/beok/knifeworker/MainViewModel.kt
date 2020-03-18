@@ -49,7 +49,7 @@ class MainViewModel : ViewModel() {
         val time = baseWorkingHour - workingHour.toFloat()
         val (hour, minute) = time.toInt() to time - time.toInt()
 
-        var workOffHour = _startWorkingTime.value!!.get(Calendar.HOUR) + hour
+        var workOffHour = _startWorkingTime.value!!.get(Calendar.HOUR_OF_DAY) + hour
         if (workOffHour >= 12) workOffHour += LAUNCH_TIME
         var workOffMinute = _startWorkingTime.value!!.get(Calendar.MINUTE) / 60.00f +
                 minute
