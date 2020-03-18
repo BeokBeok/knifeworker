@@ -135,6 +135,7 @@
                 android:hint="@string/title_total_working_hour"
                 android:inputType="numberDecimal"
                 android:textSize="18sp"
+                showWorkOffTime="@{vm}"
                 tools:text="총 근무시간" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -145,25 +146,11 @@
             android:layout_height="0dp"
             android:gravity="center"
             android:textSize="60sp"
-            app:layout_constraintBottom_toTopOf="@id/mbtn_calculate"
+            app:layout_constraintBottom_toTopOf="@id/adview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_remain_working_hour"
             tools:text="5시 00분 퇴근\n가즈아!!!" />
-
-        <!-- 계산 버튼 -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mbtn_calculate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:onClick="@{() -> vm.showWorkOffTime(tietRemainWorkingHour.getText().toString())}"
-            android:text="@string/label_calculate"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            app:cornerRadius="20dp"
-            app:layout_constraintBottom_toTopOf="@id/adview"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <!-- 배너 광고 -->
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
