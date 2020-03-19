@@ -130,12 +130,13 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tiet_remain_working_hour"
+                showWorkOffTime="@{vm}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/title_total_working_hour"
+                android:imeOptions="actionDone"
                 android:inputType="numberDecimal"
                 android:textSize="18sp"
-                showWorkOffTime="@{vm}"
                 tools:text="총 근무시간" />
         </com.google.android.material.textfield.TextInputLayout>
 

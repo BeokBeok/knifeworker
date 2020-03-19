@@ -33,16 +33,16 @@ class MainViewModel : ViewModel() {
         _result.value = Pair(workOffHour, (workOffMinute * 60).roundToInt())
     }
 
+    fun setWorkingDay(day: Int) {
+        baseWorkingHour = (FULL_TIME * day).toFloat()
+    }
+
     private fun checkStayUpAllNight(workOffHour: Int): Boolean {
         if (workOffHour >= 24) {
             _err.value = IllegalStateException(R.string.msg_err_stay_up_all_night.toString())
             return true
         }
         return false
-    }
-
-    fun setWorkingDay(day: Int) {
-        baseWorkingHour = (FULL_TIME * day).toFloat()
     }
 
     private fun calWorkOffTime(workingHour: String): Pair<Int, Float> {
