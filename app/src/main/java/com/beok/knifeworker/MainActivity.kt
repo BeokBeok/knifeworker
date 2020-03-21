@@ -1,6 +1,8 @@
 package com.beok.knifeworker
 
+import android.content.Context
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -61,11 +63,20 @@ class MainActivity : AppCompatActivity() {
                 val stringRes = it.message?.toInt() ?: -1
                 Toast.makeText(owner, getString(stringRes), Toast.LENGTH_SHORT).show()
                 binding.tvResult.text = ""
+                hideKeyboard()
             })
             result.observe(owner, Observer {
                 binding.tvResult.text = if (it.first == 0 && it.second == 0) ""
                 else String.format(getString(R.string.msg_result_work_off), it.first, it.second)
+                hideKeyboard()
             })
         }
+    }
+
+    private fun hideKeyboard() {
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+            binding.tietTotalWorkingHour.windowToken,
+            0
+        )
     }
 }
