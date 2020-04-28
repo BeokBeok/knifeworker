@@ -17,7 +17,7 @@ class MainViewModel : ViewModel() {
     private val _result = MutableLiveData<Pair<Int, Int>>()
     val result: LiveData<Pair<Int, Int>> get() = _result
 
-    private var baseWorkingHour: Float = 8.00F
+    private val _baseWorkingHour = MutableLiveData(8.00F)
 
     val setupStartWorkingHour = fun(startWorkingHour: Calendar) {
         _startWorkingTime.value = startWorkingHour
@@ -34,7 +34,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun setWorkingDay(day: Int) {
-        baseWorkingHour = (FULL_TIME * day).toFloat()
+        _baseWorkingHour.value = (FULL_TIME * day).toFloat()
     }
 
     private fun checkStayUpAllNight(workOffHour: Int): Boolean {
@@ -46,7 +46,7 @@ class MainViewModel : ViewModel() {
     }
 
     private fun calWorkOffTime(workingHour: String): Pair<Int, Float> {
-        val time = baseWorkingHour - workingHour.toFloat()
+        val time = _baseWorkingHour.value!! - workingHour.toFloat()
         val (hour, minute) = time.toInt() to time - time.toInt()
 
         var workOffHour = _startWorkingTime.value!!.get(Calendar.HOUR_OF_DAY) + hour
@@ -70,7 +70,11 @@ class MainViewModel : ViewModel() {
                 IllegalStateException(R.string.msg_err_input_working_hour_until_current.toString())
             return false
         }
-        if (workingHour.toFloat() >= baseWorkingHour) {
+        if (_baseWorkingHour.value == null) {
+            _err.value = IllegalStateException(R.string.msg_err_setting_working_day.toString())
+            return false
+        }
+        if (workingHour.toFloat() >= _baseWorkingHour.value!!) {
             _err.value =
                 IllegalStateException(R.string.msg_err_exceed_working_hour.toString())
             return false
