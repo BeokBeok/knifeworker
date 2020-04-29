@@ -11,7 +11,7 @@ import java.util.*
 
 @BindingAdapter("showTimePicker")
 fun TextView.showTimePicker(startWorkingHour: (Calendar) -> Unit) {
-    setOnClickListener {
+    setOnSingleClickListener {
         MaterialDialog(it.context).show {
             timePicker { _, datetime -> startWorkingHour.invoke(datetime) }
         }
