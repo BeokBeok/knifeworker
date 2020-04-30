@@ -17,7 +17,7 @@ class MainViewModel : ViewModel() {
     private val _result = MutableLiveData<Pair<Int, Int>>()
     val result: LiveData<Pair<Int, Int>> get() = _result
 
-    private var baseWorkingHour: Float = 8.00F
+    private var baseWorkingHour: Float = 0F
 
     val setupStartWorkingHour = fun(startWorkingHour: Calendar) {
         _startWorkingTime.value = startWorkingHour
@@ -68,6 +68,10 @@ class MainViewModel : ViewModel() {
         if (workingHour.isEmpty()) {
             _err.value =
                 IllegalStateException(R.string.msg_err_input_working_hour_until_current.toString())
+            return false
+        }
+        if (baseWorkingHour == 0F) {
+            _err.value = IllegalStateException(R.string.msg_err_input_start_working_hour.toString())
             return false
         }
         if (workingHour.toFloat() >= baseWorkingHour) {
