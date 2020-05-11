@@ -9,6 +9,7 @@
     <string name="title_start_working">출근 시간</string>
     <string name="title_total_working_hour">총 근무 시간</string>
     <string name="label_calculate">계산하기</string>
+    <string name="msg_err_check_day">일차를 재선택해주세요.</string>
     <string name="msg_err_input_start_working_hour">출근 시간을 입력해주세요.</string>
     <string name="msg_err_input_working_hour_until_current">현재까지 일한 근무 시간을 입력해주세요.</string>
     <string name="msg_err_exceed_working_hour">뭐해? 퇴근 안하고</string>

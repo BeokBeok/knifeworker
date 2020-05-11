@@ -71,7 +71,7 @@ class MainViewModel : ViewModel() {
             return false
         }
         if (baseWorkingHour == 0F) {
-            _err.value = IllegalStateException(R.string.msg_err_input_start_working_hour.toString())
+            _err.value = IllegalStateException(R.string.msg_err_check_day.toString())
             return false
         }
         if (workingHour.toFloat() >= baseWorkingHour) {
