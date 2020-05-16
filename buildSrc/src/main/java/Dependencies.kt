@@ -22,6 +22,11 @@ object Libraries {
     const val ESPRESSO = "androidx.test.espresso:espresso-core:${Version.ESPRESSO}"
     const val KOTLIN_TEST_JUNIT =
         "org.jetbrains.kotlin:kotlin-test-junit:${Version.KOTLIN}"
+    const val JUNIT_KTX = "androidx.test.ext:junit-ktx:1.1.1"
+    const val TEST_CORE_KTX = "androidx.test:core-ktx:1.2.0"
+    const val ROBOLECTRIC = "org.robolectric:robolectric:4.3.1"
+    const val CORE_TESTING = "androidx.arch.core:core-testing:2.0.0"
+
     const val LIFECYCLE_EXT = "androidx.lifecycle:lifecycle-extensions:${Version.LIFECYCLE_EXT}"
 
     const val MATERIAL_DIALOG_CORE =

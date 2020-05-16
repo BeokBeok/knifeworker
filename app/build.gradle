@@ -25,6 +25,9 @@ android {
     dataBinding {
         enabled true
     }
+    testOptions.unitTests {
+        includeAndroidResources = true
+    }
 }
 
 dependencies {
@@ -33,8 +36,13 @@ dependencies {
     implementation Libraries.MATERIAL
     implementation Libraries.CORE_KTX
     implementation Libraries.CONSTRAINT_LAYOUT
-    implementation Libraries.JUNIT
     implementation Libraries.LIFECYCLE_EXT
+
+    testImplementation Libraries.JUNIT
+    testImplementation Libraries.JUNIT_KTX
+    testImplementation Libraries.TEST_CORE_KTX
+    testImplementation Libraries.ROBOLECTRIC
+    testImplementation Libraries.CORE_TESTING
 
     androidTestImplementation Libraries.ESPRESSO
     androidTestImplementation Libraries.KOTLIN_TEST_JUNIT
