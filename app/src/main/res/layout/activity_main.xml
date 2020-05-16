@@ -124,7 +124,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tiet_total_working_hour"
-                showWorkOffTime="@{vm}"
+                doneKeyPad="@{() -> vm.showWorkOffTime(tietTotalWorkingHour.getText().toString())}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/title_total_working_hour"

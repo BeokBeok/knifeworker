@@ -5,9 +5,12 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.timePicker
-import com.beok.knifeworker.MainViewModel
 import com.google.android.material.textfield.TextInputEditText
 import java.util.*
+
+interface BindingAdapterListener {
+    fun invoke()
+}
 
 @BindingAdapter("showTimePicker")
 fun TextView.showTimePicker(startWorkingHour: (Calendar) -> Unit) {
@@ -18,11 +21,11 @@ fun TextView.showTimePicker(startWorkingHour: (Calendar) -> Unit) {
     }
 }
 
-@BindingAdapter("showWorkOffTime")
-fun TextInputEditText.showWorkOffTime(viewModel: MainViewModel) {
-    setOnEditorActionListener { textView, actionId, _ ->
+@BindingAdapter("doneKeyPad")
+fun TextInputEditText.doneKeyPad(listener: BindingAdapterListener) {
+    setOnEditorActionListener { _, actionId, _ ->
         if (actionId == EditorInfo.IME_ACTION_DONE) {
-            viewModel.showWorkOffTime(textView.text.toString())
+            listener.invoke()
             false
         } else {
             true
