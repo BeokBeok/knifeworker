@@ -37,4 +37,17 @@ class MainViewModelTest {
             assertEquals(err.value?.message, R.string.msg_err_stay_up_all_night.toString())
         }
     }
+
+    @Test
+    fun `총 근무시간이 충족 근무시간을 초과한 경우`() {
+        viewModel.run {
+            setWorkingDay(5)
+            setupStartWorkingHour(Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, 10)
+                set(Calendar.MINUTE, 0)
+            })
+            showWorkOffTime("40")
+            assertEquals(err.value?.message, R.string.msg_err_exceed_working_hour.toString())
+        }
+    }
 }
