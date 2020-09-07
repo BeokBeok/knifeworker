@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.beok.knifeworker.databinding.ActivityMainBinding
-import com.beok.knifeworker.util.Pref
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.play.core.review.ReviewManagerFactory
@@ -32,14 +31,6 @@ class MainActivity : AppCompatActivity() {
         setupBinding()
         setupObserver()
         setupAdmob()
-    }
-
-    override fun onBackPressed() {
-        if (!Pref.isInAppReview) {
-            inAppReview()
-            return
-        }
-        super.onBackPressed()
     }
 
     private fun setupAdmob() {
@@ -79,6 +70,7 @@ class MainActivity : AppCompatActivity() {
                 binding.tvResult.text = if (it.first == 0 && it.second == 0) ""
                 else String.format(getString(R.string.msg_result_work_off), it.first, it.second)
                 hideKeyboard()
+                inAppReview()
             })
         }
     }
@@ -95,10 +87,8 @@ class MainActivity : AppCompatActivity() {
         val requestReviewFlow = reviewManager.requestReviewFlow()
         requestReviewFlow.addOnCompleteListener {
             if (!it.isSuccessful) return@addOnCompleteListener
-
             reviewManager.launchReviewFlow(this, it.result).addOnCompleteListener {
-                Toast.makeText(this, "감사합니다.", Toast.LENGTH_SHORT).show()
-                Pref.isInAppReview = true
+                // NO OP
             }
         }
     }
