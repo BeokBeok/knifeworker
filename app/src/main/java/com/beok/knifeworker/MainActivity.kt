@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.beok.knifeworker.databinding.ActivityMainBinding
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
+import com.google.android.play.core.review.ReviewManagerFactory
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
                 binding.tvResult.text = if (it.first == 0 && it.second == 0) ""
                 else String.format(getString(R.string.msg_result_work_off), it.first, it.second)
                 hideKeyboard()
+                inAppReview()
             })
         }
     }
@@ -78,5 +80,16 @@ class MainActivity : AppCompatActivity() {
             binding.tietTotalWorkingHour.windowToken,
             0
         )
+    }
+
+    private fun inAppReview() {
+        val reviewManager = ReviewManagerFactory.create(this)
+        val requestReviewFlow = reviewManager.requestReviewFlow()
+        requestReviewFlow.addOnCompleteListener {
+            if (!it.isSuccessful) return@addOnCompleteListener
+            reviewManager.launchReviewFlow(this, it.result).addOnCompleteListener {
+                // NO OP
+            }
+        }
     }
 }

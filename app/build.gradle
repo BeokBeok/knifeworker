@@ -51,4 +51,7 @@ dependencies {
     implementation Libraries.MATERIAL_DIALOG_DATETIME
 
     implementation Libraries.PLAY_SERVICES_ADS
+    implementation Libraries.PLAY_CORE_KTX
+
+    implementation Libraries.PREFERENCE_KTX
 }

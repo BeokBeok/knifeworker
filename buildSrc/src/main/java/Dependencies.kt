@@ -36,5 +36,7 @@ object Libraries {
 
     const val PLAY_SERVICES_ADS =
         "com.google.android.gms:play-services-ads:${Version.PLAY_SERVICE_ADS}"
+    const val PLAY_CORE_KTX = "com.google.android.play:core-ktx:1.8.1"
 
+    const val PREFERENCE_KTX = "androidx.preference:preference-ktx:1.1.1"
 }
