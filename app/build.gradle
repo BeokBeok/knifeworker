@@ -8,11 +8,11 @@ plugins {
 def currentTimeMillis = System.currentTimeMillis().toInteger()
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.beok.knifeworker"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 31
         versionCode currentTimeMillis
         versionName "1.2.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
