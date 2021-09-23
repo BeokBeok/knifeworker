@@ -52,8 +52,6 @@ dependencies {
     implementation Libraries.PLAY_SERVICES_ADS
     implementation Libraries.PLAY_CORE_KTX
 
-    implementation Libraries.PREFERENCE_KTX
-
     implementation Libraries.FRAGMENT_KTX
 
     implementation Hilt.ANDROID
