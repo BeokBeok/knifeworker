@@ -5,16 +5,14 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
-def currentTimeMillis = System.currentTimeMillis().toInteger()
-
 android {
     compileSdkVersion 31
     defaultConfig {
         applicationId "com.beok.knifeworker"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode currentTimeMillis
-        versionName "1.2.7"
+        versionCode 1843565565
+        versionName "1.2.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
