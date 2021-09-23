@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 def currentTimeMillis = System.currentTimeMillis().toInteger()
@@ -52,4 +53,7 @@ dependencies {
     implementation Libraries.PLAY_CORE_KTX
 
     implementation Libraries.PREFERENCE_KTX
+
+    implementation Hilt.ANDROID
+    kapt Hilt.COMPILER
 }

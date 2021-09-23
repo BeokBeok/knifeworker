@@ -8,6 +8,7 @@ buildscript {
     dependencies {
         classpath Root.GRADLE
         classpath Root.KOTLIN_GRADLE_PLUGIN
+        classpath Root.HILT_ANDROID_GRADLE_PLUGIN
     }
 }
 

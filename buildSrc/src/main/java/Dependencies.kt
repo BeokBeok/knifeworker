@@ -8,6 +8,8 @@ object Version {
     const val MATERIAL_DIALOG = "3.1.1"
 
     const val PLAY_SERVICE_ADS = "20.3.0"
+
+    const val HILT = "2.38.1"
 }
 
 object Libraries {
@@ -34,6 +36,11 @@ object Libraries {
     const val PLAY_CORE_KTX = "com.google.android.play:core-ktx:1.8.1"
 
     const val PREFERENCE_KTX = "androidx.preference:preference-ktx:1.1.1"
+}
+
+object Hilt {
+    const val ANDROID = "com.google.dagger:hilt-android:${Version.HILT}"
+    const val COMPILER = "com.google.dagger:hilt-compiler:${Version.HILT}"
 }
 
 object Root {
