@@ -1,10 +1,8 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
 
 def currentTimeMillis = System.currentTimeMillis().toInteger()
 
@@ -24,8 +22,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding {
-        enabled true
+    buildFeatures {
+        dataBinding = true
     }
     testOptions.unitTests {
         includeAndroidResources = true
@@ -34,11 +32,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation Libraries.KOTLIN_STDLIB_JDK7
+    implementation Libraries.KOTLIN_STDLIB_JDK8
     implementation Libraries.MATERIAL
     implementation Libraries.CORE_KTX
     implementation Libraries.CONSTRAINT_LAYOUT
-    implementation Libraries.LIFECYCLE_EXT
 
     testImplementation Libraries.JUNIT
     testImplementation Libraries.JUNIT_KTX
@@ -46,7 +43,6 @@ dependencies {
     testImplementation Libraries.ROBOLECTRIC
     testImplementation Libraries.CORE_TESTING
 
-    androidTestImplementation Libraries.ESPRESSO
     androidTestImplementation Libraries.KOTLIN_TEST_JUNIT
 
     implementation Libraries.MATERIAL_DIALOG_CORE
