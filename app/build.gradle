@@ -54,6 +54,8 @@ dependencies {
 
     implementation Libraries.PREFERENCE_KTX
 
+    implementation Libraries.FRAGMENT_KTX
+
     implementation Hilt.ANDROID
     kapt Hilt.COMPILER
 }

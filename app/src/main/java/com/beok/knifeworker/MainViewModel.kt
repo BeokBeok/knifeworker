@@ -3,10 +3,13 @@ package com.beok.knifeworker
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(): ViewModel() {
 
     private val _startWorkingTime = MutableLiveData<Calendar>()
     val startWorkingTime: LiveData<Calendar> get() = _startWorkingTime
