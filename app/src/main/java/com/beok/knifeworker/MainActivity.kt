@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.beok.knifeworker.databinding.ActivityMainBinding
 import com.beok.knifeworker.inapp.InAppUpdateManager
 import com.beok.knifeworker.inapp.InAppUpdateType
@@ -87,6 +86,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
+        observeViewModel()
+        observeInAppUpdate()
+    }
+
+    private fun observeViewModel() {
         val owner = this@MainActivity
         viewModel.run {
             startWorkingTime.observe(owner) { datetime ->
@@ -115,6 +119,10 @@ class MainActivity : AppCompatActivity() {
                 inAppReview()
             }
         }
+    }
+
+    private fun observeInAppUpdate() {
+        val owner = this@MainActivity
         inAppUpdateManager.run {
             appUpdatable.observe(owner) { inAppUpdateType ->
                 when (inAppUpdateType) {
