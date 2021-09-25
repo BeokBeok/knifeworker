@@ -5,15 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
-import javax.inject.Inject
 
-class InAppUpdateManager @Inject constructor(
-    private val inAppUpdateManager: AppUpdateManager
-) {
+class InAppUpdateManager(private val inAppUpdateManager: AppUpdateManager) {
 
     private val _appUpdatable = MutableLiveData<InAppUpdateType>()
     val appUpdatable: LiveData<InAppUpdateType> get() = _appUpdatable

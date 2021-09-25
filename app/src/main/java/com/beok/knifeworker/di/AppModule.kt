@@ -1,6 +1,8 @@
 package com.beok.knifeworker.di
 
 import android.content.Context
+import com.beok.knifeworker.inapp.InAppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import dagger.Module
 import dagger.Provides
@@ -17,4 +19,9 @@ class AppModule {
     @Singleton
     fun providesAppUpdateManager(@ApplicationContext context: Context) =
         AppUpdateManagerFactory.create(context)
+
+    @Provides
+    @Singleton
+    fun providesInAppUpdateManager(appUpdateManager: AppUpdateManager) =
+        InAppUpdateManager(inAppUpdateManager = appUpdateManager)
 }
