@@ -15,6 +15,9 @@ import com.beok.knifeworker.inapp.InAppUpdateManager
 import com.beok.knifeworker.inapp.InAppUpdateType
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.review.ReviewManagerFactory
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -30,13 +33,31 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var inAppUpdateManager: InAppUpdateManager
 
+    private lateinit var installStateUpdatedListener: InstallStateUpdatedListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setupBinding()
+        setupListener()
         setupObserver()
         setupAdmob()
         setupInAppUpdate()
+    }
+
+    private fun setupListener() {
+        installStateUpdatedListener = InstallStateUpdatedListener {
+            if (it.installStatus() == InstallStatus.DOWNLOADED) {
+                Snackbar.make(
+                    binding.clMain,
+                    getString(R.string.complete_download_for_update),
+                    Snackbar.LENGTH_SHORT
+                ).setAction(getString(R.string.install_and_restart)) {
+                    inAppUpdateManager.installAndRestart()
+                }.show()
+            }
+        }
+        inAppUpdateManager.registerInstallStateUpdatedListener(installStateUpdatedListener)
     }
 
     private fun setupInAppUpdate() {
@@ -94,15 +115,25 @@ class MainActivity : AppCompatActivity() {
                 inAppReview()
             }
         }
-        inAppUpdateManager.appUpdatable.observe(owner) { inAppUpdateType ->
-            when (inAppUpdateType) {
-                is InAppUpdateType.Impossible -> return@observe
-                is InAppUpdateType.Possible -> inAppUpdateManager.registerUpdateFlowForResult(
-                    appUpdateInfo = inAppUpdateType.info,
-                    appUpdateType = inAppUpdateType.type,
-                    target = owner
-                )
-            }.javaClass
+        inAppUpdateManager.run {
+            appUpdatable.observe(owner) { inAppUpdateType ->
+                when (inAppUpdateType) {
+                    is InAppUpdateType.Impossible -> {
+                        if (!::installStateUpdatedListener.isInitialized) return@observe
+                        unregisterInstallStateUpdatedListener(installStateUpdatedListener)
+                    }
+                    is InAppUpdateType.Possible -> registerUpdateFlowForResult(
+                        appUpdateInfo = inAppUpdateType.info,
+                        appUpdateType = inAppUpdateType.type,
+                        target = owner
+                    )
+                }.javaClass
+            }
+            installAndRestart.observe(owner) { tryInstallAndRestart ->
+                if (!tryInstallAndRestart) return@observe
+                completeUpdate()
+                unregisterInstallStateUpdatedListener(listener = installStateUpdatedListener)
+            }
         }
     }
 

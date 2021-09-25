@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.install.InstallState
+import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import javax.inject.Inject
@@ -15,6 +17,9 @@ class InAppUpdateManager @Inject constructor(
 
     private val _appUpdatable = MutableLiveData<InAppUpdateType>()
     val appUpdatable: LiveData<InAppUpdateType> get() = _appUpdatable
+
+    private val _installAndRestart = MutableLiveData<Boolean>()
+    val installAndRestart: LiveData<Boolean> get() = _installAndRestart
 
     fun checkAppUpdatable() {
         inAppUpdateManager.appUpdateInfo
@@ -52,6 +57,22 @@ class InAppUpdateManager @Inject constructor(
             target,
             REQ_IN_APP_UPDATE
         )
+    }
+
+    fun registerInstallStateUpdatedListener(listener: InstallStateUpdatedListener) {
+        inAppUpdateManager.registerListener(listener)
+    }
+
+    fun unregisterInstallStateUpdatedListener(listener: InstallStateUpdatedListener) {
+        inAppUpdateManager.unregisterListener(listener)
+    }
+
+    fun installAndRestart() {
+        _installAndRestart.value = true
+    }
+
+    fun completeUpdate() {
+        inAppUpdateManager.completeUpdate()
     }
     
     companion object {
