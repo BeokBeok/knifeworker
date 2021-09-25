@@ -1,19 +1,26 @@
 package com.beok.knifeworker
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.beok.knifeworker.databinding.ActivityMainBinding
+import com.beok.knifeworker.inapp.InAppUpdateManager
+import com.beok.knifeworker.inapp.InAppUpdateType
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.review.ReviewManagerFactory
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -22,11 +29,49 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
 
+    @Inject
+    lateinit var inAppUpdateManager: InAppUpdateManager
+
+    private lateinit var installStateUpdatedListener: InstallStateUpdatedListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setupBinding()
+        setupListener()
         setupObserver()
         setupAdmob()
+        setupInAppUpdate()
+    }
+
+    private fun setupListener() {
+        installStateUpdatedListener = InstallStateUpdatedListener {
+            if (it.installStatus() == InstallStatus.DOWNLOADED) {
+                Snackbar.make(
+                    binding.clMain,
+                    getString(R.string.complete_download_for_update),
+                    Snackbar.LENGTH_SHORT
+                ).setAction(getString(R.string.install_and_restart)) {
+                    inAppUpdateManager.installAndRestart()
+                }.show()
+            }
+        }
+        inAppUpdateManager.registerInstallStateUpdatedListener(installStateUpdatedListener)
+    }
+
+    private fun setupInAppUpdate() {
+        inAppUpdateManager.checkAppUpdatable()
+    }
+
+    @Suppress("Deprecation")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode != InAppUpdateManager.REQ_IN_APP_UPDATE) return
+        if (resultCode != Activity.RESULT_OK) {
+            Toast.makeText(this, getString(R.string.cancel_update), Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 
     private fun setupAdmob() {
@@ -41,9 +86,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
+        observeViewModel()
+        observeInAppUpdate()
+    }
+
+    private fun observeViewModel() {
         val owner = this@MainActivity
         viewModel.run {
-            startWorkingTime.observe(owner, Observer { datetime ->
+            startWorkingTime.observe(owner) { datetime ->
                 val amOrPm = if (datetime.get(Calendar.AM_PM) == 1) {
                     getString(R.string.pm)
                 } else {
@@ -55,19 +105,43 @@ class MainActivity : AppCompatActivity() {
                     datetime.get(Calendar.HOUR),
                     datetime.get(Calendar.MINUTE)
                 )
-            })
-            err.observe(owner, Observer {
+            }
+            err.observe(owner) {
                 val stringRes = it.message?.toInt() ?: -1
                 Toast.makeText(owner, getString(stringRes), Toast.LENGTH_SHORT).show()
                 binding.tvResult.text = ""
                 hideKeyboard()
-            })
-            result.observe(owner, Observer {
+            }
+            result.observe(owner) {
                 binding.tvResult.text = if (it.first == 0 && it.second == 0) ""
                 else String.format(getString(R.string.msg_result_work_off), it.first, it.second)
                 hideKeyboard()
                 inAppReview()
-            })
+            }
+        }
+    }
+
+    private fun observeInAppUpdate() {
+        val owner = this@MainActivity
+        inAppUpdateManager.run {
+            appUpdatable.observe(owner) { inAppUpdateType ->
+                when (inAppUpdateType) {
+                    is InAppUpdateType.Impossible -> {
+                        if (!::installStateUpdatedListener.isInitialized) return@observe
+                        unregisterInstallStateUpdatedListener(installStateUpdatedListener)
+                    }
+                    is InAppUpdateType.Possible -> registerUpdateFlowForResult(
+                        appUpdateInfo = inAppUpdateType.info,
+                        appUpdateType = inAppUpdateType.type,
+                        target = owner
+                    )
+                }.javaClass
+            }
+            installAndRestart.observe(owner) { tryInstallAndRestart ->
+                if (!tryInstallAndRestart) return@observe
+                completeUpdate()
+                unregisterInstallStateUpdatedListener(listener = installStateUpdatedListener)
+            }
         }
     }
 

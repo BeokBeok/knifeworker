@@ -20,4 +20,8 @@
     <string name="title_day_3">3일차</string>
     <string name="title_day_4">4일차</string>
     <string name="title_day_5">5일차</string>
+
+    <string name="cancel_update">업데이트가 취소되었습니다.</string>
+    <string name="complete_download_for_update">업데이트 버전 다운로드 완료</string>
+    <string name="install_and_restart">설치 및 재시작</string>
 </resources>
