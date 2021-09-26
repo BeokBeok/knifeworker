@@ -44,23 +44,9 @@ class MainActivity : AppCompatActivity() {
         setupInAppUpdate()
     }
 
-    private fun setupListener() {
-        installStateUpdatedListener = InstallStateUpdatedListener {
-            if (it.installStatus() == InstallStatus.DOWNLOADED) {
-                Snackbar.make(
-                    binding.clMain,
-                    getString(R.string.complete_download_for_update),
-                    Snackbar.LENGTH_SHORT
-                ).setAction(getString(R.string.install_and_restart)) {
-                    inAppUpdateManager.installAndRestart()
-                }.show()
-            }
-        }
-        inAppUpdateManager.registerInstallStateUpdatedListener(installStateUpdatedListener)
-    }
-
-    private fun setupInAppUpdate() {
-        inAppUpdateManager.checkAppUpdatable()
+    override fun onDestroy() {
+        inAppUpdateManager.unregisterInstallStateUpdatedListener(installStateUpdatedListener)
+        super.onDestroy()
     }
 
     @Suppress("Deprecation")
@@ -71,7 +57,27 @@ class MainActivity : AppCompatActivity() {
         if (resultCode != Activity.RESULT_OK) {
             Toast.makeText(this, getString(R.string.cancel_update), Toast.LENGTH_SHORT)
                 .show()
+            inAppUpdateManager.unregisterInstallStateUpdatedListener(installStateUpdatedListener)
         }
+    }
+
+    private fun setupListener() {
+        installStateUpdatedListener = InstallStateUpdatedListener {
+            if (it.installStatus() == InstallStatus.DOWNLOADED) {
+                Snackbar.make(
+                    binding.clMain,
+                    getString(R.string.complete_download_for_update),
+                    5_000
+                ).setAction(getString(R.string.install_and_restart)) {
+                    inAppUpdateManager.installAndRestart()
+                }.show()
+            }
+        }
+        inAppUpdateManager.registerInstallStateUpdatedListener(installStateUpdatedListener)
+    }
+
+    private fun setupInAppUpdate() {
+        inAppUpdateManager.checkAppUpdatable()
     }
 
     private fun setupAdmob() {
@@ -124,7 +130,8 @@ class MainActivity : AppCompatActivity() {
     private fun observeInAppUpdate() {
         val owner = this@MainActivity
         inAppUpdateManager.run {
-            appUpdatable.observe(owner) { inAppUpdateType ->
+            appUpdatable.observe(owner) {
+                val inAppUpdateType = it.getContentIfNotHandled() ?: return@observe
                 when (inAppUpdateType) {
                     is InAppUpdateType.Impossible -> {
                         if (!::installStateUpdatedListener.isInitialized) return@observe
