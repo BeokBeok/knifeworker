@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(
                     binding.clMain,
                     getString(R.string.complete_download_for_update),
-                    Snackbar.LENGTH_SHORT
+                    5_000
                 ).setAction(getString(R.string.install_and_restart)) {
                     inAppUpdateManager.installAndRestart()
                 }.show()
