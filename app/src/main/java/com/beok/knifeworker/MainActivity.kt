@@ -44,6 +44,11 @@ class MainActivity : AppCompatActivity() {
         setupInAppUpdate()
     }
 
+    override fun onDestroy() {
+        inAppUpdateManager.unregisterInstallStateUpdatedListener(installStateUpdatedListener)
+        super.onDestroy()
+    }
+
     @Suppress("Deprecation")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
