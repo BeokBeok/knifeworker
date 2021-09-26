@@ -3,6 +3,7 @@ package com.beok.knifeworker.inapp
 import android.app.Activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.beok.knifeworker.MainActivity
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.install.InstallStateUpdatedListener
@@ -37,15 +38,12 @@ class InAppUpdateManager(private val inAppUpdateManager: AppUpdateManager) {
                     }
                 }
             }
-            .addOnFailureListener {
-                _appUpdatable.value = InAppUpdateType.Impossible
-            }
     }
 
     fun registerUpdateFlowForResult(
         appUpdateInfo: AppUpdateInfo,
         appUpdateType: Int,
-        target: Activity
+        target: MainActivity
     ) {
         inAppUpdateManager.startUpdateFlowForResult(
             appUpdateInfo,
