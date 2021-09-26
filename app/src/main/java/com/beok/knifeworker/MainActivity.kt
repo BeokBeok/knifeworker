@@ -44,6 +44,18 @@ class MainActivity : AppCompatActivity() {
         setupInAppUpdate()
     }
 
+    @Suppress("Deprecation")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode != InAppUpdateManager.REQ_IN_APP_UPDATE) return
+        if (resultCode != Activity.RESULT_OK) {
+            Toast.makeText(this, getString(R.string.cancel_update), Toast.LENGTH_SHORT)
+                .show()
+            inAppUpdateManager.unregisterInstallStateUpdatedListener(installStateUpdatedListener)
+        }
+    }
+
     private fun setupListener() {
         installStateUpdatedListener = InstallStateUpdatedListener {
             if (it.installStatus() == InstallStatus.DOWNLOADED) {
@@ -61,17 +73,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupInAppUpdate() {
         inAppUpdateManager.checkAppUpdatable()
-    }
-
-    @Suppress("Deprecation")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode != InAppUpdateManager.REQ_IN_APP_UPDATE) return
-        if (resultCode != Activity.RESULT_OK) {
-            Toast.makeText(this, getString(R.string.cancel_update), Toast.LENGTH_SHORT)
-                .show()
-        }
     }
 
     private fun setupAdmob() {
@@ -124,7 +125,8 @@ class MainActivity : AppCompatActivity() {
     private fun observeInAppUpdate() {
         val owner = this@MainActivity
         inAppUpdateManager.run {
-            appUpdatable.observe(owner) { inAppUpdateType ->
+            appUpdatable.observe(owner) {
+                val inAppUpdateType = it.getContentIfNotHandled() ?: return@observe
                 when (inAppUpdateType) {
                     is InAppUpdateType.Impossible -> {
                         if (!::installStateUpdatedListener.isInitialized) return@observe
