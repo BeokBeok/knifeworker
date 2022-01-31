@@ -7,7 +7,7 @@ object Version {
 
     const val MATERIAL_DIALOG = "3.1.1"
 
-    const val PLAY_SERVICE_ADS = "20.3.0"
+    const val PLAY_SERVICE_ADS = "20.5.0"
 
     const val HILT = "2.38.1"
 }
